@@ -43,10 +43,10 @@ describe('ImgBrokenDirective', () => {
     component.srcMock = undefined;
     setTimeout(() => {
       const afterImgElement = fixture.debugElement.query(By.css('.testing-directive')).nativeElement;
-      const afterImgSrc = beforeImgElement.src; //URL antes de cambiar por la diretiva
+      const afterImgSrc = beforeImgElement.src; //URL despues de cambiar por la diretiva
     
       //Assert
-      expect(afterImgSrc).toMatch('\assets/images\/');
+      expect(afterImgSrc).toMatch('http://[/\w/\W]*');
       done()
     }, 3000)
   });

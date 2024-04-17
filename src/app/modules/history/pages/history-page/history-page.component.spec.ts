@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HistoryPageComponent } from './history-page.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HistoryModule } from '@modules/history/history.module';
 
 describe('HistoryPageComponent', () => {
   let component: HistoryPageComponent;
@@ -12,7 +11,6 @@ describe('HistoryPageComponent', () => {
     await TestBed.configureTestingModule({
     imports: [
         HttpClientTestingModule,
-        HistoryModule,
         HistoryPageComponent
     ]
 })
