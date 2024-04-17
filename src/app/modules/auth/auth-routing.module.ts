@@ -6,6 +6,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: AuthPageComponent
+  },
+  {
+    path: '**', //TODO 404 cuando no existe la ruta
+    redirectTo: 'login'
   }
 ];
 

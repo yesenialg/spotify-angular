@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TrackModel } from '@core/models/tracks.model';
+import { TrackService } from '@modules/tracks/services/track.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,12 +14,26 @@ export class TracksPageComponent implements OnInit{
 
   listObservers$: Array<Subscription> = []
 
-  // constructor(private _trackService: TrackService) { }
+  constructor(private _trackService: TrackService) { }
   
   ngOnInit(): void {
-    // this._trackService.getAllTracks$()
-    // .subscribe(response => {
-    //   this.tracksTrending = response;
-    // })
+    this.loadDataAll();
+    this.loadDataRandom();
+  }
+
+  loadDataAll(): void {
+    //Estas subscripciones son a httpClient, por lo que no se deben desubscribir
+    this._trackService.getAllTracks$()
+    .subscribe((response: TrackModel[]) => {
+      this.tracksTrending = response;
+    })
+  }
+
+  loadDataRandom(): void {
+    //Estas subscripciones son a httpClient, por lo que no se deben desubscribir
+    this._trackService.getAllRandom$()
+    .subscribe((response: TrackModel[]) => {
+      this.tracksRandom = response;
+    })
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TrackModel } from '@core/models/tracks.model';
 import { MultimediaService } from '@shared/services/multimedia.service';
 import { response } from 'express';
@@ -10,30 +10,43 @@ import { Subscription } from 'rxjs';
   styleUrl: './media-player.component.css'
 })
 export class MediaPlayerComponent implements OnInit, OnDestroy {
-  mockCover:TrackModel = {
-    cover: 'https://jenesaispop.com/wp-content/uploads/2009/09/guetta_onelove.jpg',
-    name: 'Getting Over',
-    album: 'One Love',
-    url: 'http://localhost:3000/track.mp3',
-    _id: 1
-  }
-
+  @ViewChild('progressBar') progressBar: ElementRef = new ElementRef('');
   listObservers$: Array<Subscription> = [];
+  state: string = 'paused';
 
-  constructor(private _multimediaService: MultimediaService) { }
+  constructor(public _multimediaService: MultimediaService) { }
   
   ngOnInit(): void {
-    const observer1$: Subscription = this._multimediaService.callback.subscribe(
-      (response: TrackModel) => {
-        console.log("Recibe cancion", response);
-      } 
-    )
+    //FUNCIONAMIENTO DEL BEHAVIORSUBJECT Y EL OBSERVABLE CON OBSERVER
+    // const observable1$ = this._multimediaService.myObservable1$
+    // .subscribe({
+    //   next: (responseOk) => {
+    //     console.log('OK!', responseOk)
+    //   },
+    //   error: (responseFail) => {
+    //     console.log('FAIL!', responseFail)
+    //   },
+    // }
+    // );
 
-    this.listObservers$ = [observer1$]
+    const observer$ = this._multimediaService.playerStatus$
+    .subscribe(status => this.state = status);
+
+    this.listObservers$ = [observer$];
+  }
+
+  handlePosition(event: MouseEvent): void {
+    const elNative: HTMLElement = this.progressBar.nativeElement;
+    const { clientX } = event;
+    const { x, width } = elNative.getBoundingClientRect();
+    const clickX = clientX - x;
+
+    const percentageFromX = (clickX * 100) / width;
+    this._multimediaService.seekAudio(percentageFromX);
   }
   
   ngOnDestroy(): void {
-    this.listObservers$.forEach(u => u.unsubscribe());
+    this.listObservers$.forEach(u => u.unsubscribe())
   }
   
 }

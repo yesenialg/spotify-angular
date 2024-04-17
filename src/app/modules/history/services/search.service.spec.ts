@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing'
 
-import { TrackService } from './track.service';
+import { SearchService } from './search.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('TrackService', () => {
-  let service: TrackService;
+describe('SearchService', () => {
+  let service: SearchService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -12,7 +12,7 @@ describe('TrackService', () => {
         HttpClientTestingModule
       ]
     });
-    service = TestBed.inject(TrackService);
+    service = TestBed.inject(SearchService);
   });
 
   it('should be created', () => {

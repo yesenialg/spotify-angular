@@ -1,20 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SectionGenericComponent } from './section-generic.component';
+import { SearchComponent } from './search.component';
 
-describe('SectionGenericComponent', () => {
-  let component: SectionGenericComponent;
-  let fixture: ComponentFixture<SectionGenericComponent>;
+describe('SearchComponent', () => {
+  let component: SearchComponent;
+  let fixture: ComponentFixture<SearchComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        
-      ]
+      imports: []
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(SectionGenericComponent);
+    fixture = TestBed.createComponent(SearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
