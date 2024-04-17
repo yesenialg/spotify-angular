@@ -1,11 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { TrackModel } from '@core/models/tracks.model';
 import { MultimediaService } from '@shared/services/multimedia.service';
+import { ImgBrokenDirective } from '../../directives/img-broken.directive';
+import { NgIf, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-card-player',
-  templateUrl: './card-player.component.html',
-  styleUrl: './card-player.component.css'
+    selector: 'app-card-player',
+    templateUrl: './card-player.component.html',
+    styleUrl: './card-player.component.css',
+    standalone: true,
+    imports: [NgIf, ImgBrokenDirective, NgClass]
 })
 export class CardPlayerComponent {
   @Input() mode: 'small' | 'big' = 'small';

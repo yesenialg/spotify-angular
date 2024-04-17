@@ -10,9 +10,8 @@ describe('HomePageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HomePageComponent],
-      imports: [SharedModule, RouterTestingModule]
-    })
+    imports: [SharedModule, RouterTestingModule, HomePageComponent]
+})
     .compileComponents();
     
     fixture = TestBed.createComponent(HomePageComponent);

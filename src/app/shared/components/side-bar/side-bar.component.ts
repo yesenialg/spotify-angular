@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { NgFor, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-side-bar',
-  templateUrl: './side-bar.component.html',
-  styleUrl: './side-bar.component.css'
+    selector: 'app-side-bar',
+    templateUrl: './side-bar.component.html',
+    styleUrl: './side-bar.component.css',
+    standalone: true,
+    imports: [NgFor, RouterLink, NgClass]
 })
 export class SideBarComponent {
   

@@ -10,9 +10,8 @@ describe('FavoritesPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FavoritesPageComponent],
-      imports: [SharedModule, FormsModule]
-    })
+    imports: [SharedModule, FormsModule, FavoritesPageComponent]
+})
     .compileComponents();
     
     fixture = TestBed.createComponent(FavoritesPageComponent);

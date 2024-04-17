@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@modules/auth/services/auth.service';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-auth-page',
-  templateUrl: './auth-page.component.html',
-  styleUrl: './auth-page.component.css'
+    selector: 'app-auth-page',
+    templateUrl: './auth-page.component.html',
+    styleUrl: './auth-page.component.css',
+    standalone: true,
+    imports: [ReactiveFormsModule, NgIf]
 })
 export class AuthPageComponent implements OnInit {
 

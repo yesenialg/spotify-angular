@@ -12,13 +12,13 @@ describe('AuthPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AuthPageComponent],
-      imports: [
-        HttpClientTestingModule, 
-        RouterTestingModule, 
-        ReactiveFormsModule
-      ]
-    })
+    imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        ReactiveFormsModule,
+        AuthPageComponent
+    ]
+})
     .compileComponents();
     
     fixture = TestBed.createComponent(AuthPageComponent);

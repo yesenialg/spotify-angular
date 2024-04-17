@@ -9,15 +9,13 @@ import { SearchComponent } from './components/search/search.component';
 
 
 @NgModule({
-    declarations: [
-        HistoryPageComponent,
-        SearchComponent
-    ],
     imports: [
         CommonModule,
         HistoryRoutingModule,
         SharedModule,
-        FormsModule
+        FormsModule,
+        HistoryPageComponent,
+        SearchComponent
     ]
 })
 export class HistoryModule { }

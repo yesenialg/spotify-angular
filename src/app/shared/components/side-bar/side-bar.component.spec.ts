@@ -9,9 +9,8 @@ describe('SideBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SideBarComponent],
-      imports: [RouterTestingModule]
-    })
+    imports: [RouterTestingModule, SideBarComponent]
+})
     .compileComponents();
     
     fixture = TestBed.createComponent(SideBarComponent);

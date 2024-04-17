@@ -1,9 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TrackModel } from '@core/models/tracks.model';
+import { OrderListPipe } from '../../pipes/order-list.pipe';
+import { ImgBrokenDirective } from '../../directives/img-broken.directive';
+import { NgFor, NgTemplateOutlet } from '@angular/common';
 @Component({
-  selector: 'app-play-list-body',
-  templateUrl: './play-list-body.component.html',
-  styleUrl: './play-list-body.component.css'
+    selector: 'app-play-list-body',
+    templateUrl: './play-list-body.component.html',
+    styleUrl: './play-list-body.component.css',
+    standalone: true,
+    imports: [NgFor, NgTemplateOutlet, ImgBrokenDirective, OrderListPipe]
 })
 export class PlayListBodyComponent {
   @Input() tracks:TrackModel[] = []
