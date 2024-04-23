@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { TracksPageComponent } from './pages/tracks-page/tracks-page.component';
+import { TracksPageComponentV2 } from './pages/tracks-page/tracks-pageV2.component';
 
 export const tracksRoutes: Routes = [
   {
     path: '',
-    component: TracksPageComponent,
+    component: TracksPageComponentV2,
   }
 ];

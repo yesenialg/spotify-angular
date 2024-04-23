@@ -1,9 +1,8 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { TrackModel } from '@core/models/tracks.model';
+import { Component, DestroyRef, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { MultimediaService } from '@shared/services/multimedia.service';
-import { response } from 'express';
-import { Subscription } from 'rxjs';
 import { NgTemplateOutlet, NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { DestroyCustom } from '@core/utils/destroyCustom';
 
 @Component({
     selector: 'app-media-player',
@@ -12,12 +11,13 @@ import { NgTemplateOutlet, NgIf, NgClass, AsyncPipe } from '@angular/common';
     standalone: true,
     imports: [NgTemplateOutlet, NgIf, NgClass, AsyncPipe]
 })
-export class MediaPlayerComponent implements OnInit, OnDestroy {
+export class MediaPlayerComponent implements OnInit {
   @ViewChild('progressBar') progressBar: ElementRef = new ElementRef('');
-  listObservers$: Array<Subscription> = [];
   state: string = 'paused';
 
-  constructor(public _multimediaService: MultimediaService) { }
+  _multimediaService = inject(MultimediaService);
+  destroyCustom = DestroyCustom();
+  //destroyRef = inject(DestroyRef);
   
   ngOnInit(): void {
     //FUNCIONAMIENTO DEL BEHAVIORSUBJECT Y EL OBSERVABLE CON OBSERVER
@@ -32,10 +32,11 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
     // }
     // );
 
-    const observer$ = this._multimediaService.playerStatus$
+    this._multimediaService.playerStatus$
+    //.pipe(takeUntilDestroyed(this.destroyRef))  //Esta linea hace la desubscripcion
+    .pipe(this.destroyCustom())
     .subscribe(status => this.state = status);
 
-    this.listObservers$ = [observer$];
   }
 
   handlePosition(event: MouseEvent): void {
@@ -46,10 +47,6 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
 
     const percentageFromX = (clickX * 100) / width;
     this._multimediaService.seekAudio(percentageFromX);
-  }
-  
-  ngOnDestroy(): void {
-    this.listObservers$.forEach(u => u.unsubscribe())
   }
   
 }
