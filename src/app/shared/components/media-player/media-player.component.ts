@@ -1,8 +1,6 @@
-import { Component, DestroyRef, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, effect, inject } from '@angular/core';
 import { MultimediaService } from '@shared/services/multimedia.service';
 import { NgTemplateOutlet, NgIf, NgClass, AsyncPipe } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
-import { DestroyCustom } from '@core/utils/destroyCustom';
 
 @Component({
     selector: 'app-media-player',
@@ -11,32 +9,17 @@ import { DestroyCustom } from '@core/utils/destroyCustom';
     standalone: true,
     imports: [NgTemplateOutlet, NgIf, NgClass, AsyncPipe]
 })
-export class MediaPlayerComponent implements OnInit {
+export class MediaPlayerComponent{
   @ViewChild('progressBar') progressBar: ElementRef = new ElementRef('');
   state: string = 'paused';
 
   _multimediaService = inject(MultimediaService);
-  destroyCustom = DestroyCustom();
-  //destroyRef = inject(DestroyRef);
-  
-  ngOnInit(): void {
-    //FUNCIONAMIENTO DEL BEHAVIORSUBJECT Y EL OBSERVABLE CON OBSERVER
-    // const observable1$ = this._multimediaService.myObservable1$
-    // .subscribe({
-    //   next: (responseOk) => {
-    //     console.log('OK!', responseOk)
-    //   },
-    //   error: (responseFail) => {
-    //     console.log('FAIL!', responseFail)
-    //   },
-    // }
-    // );
 
-    this._multimediaService.playerStatus$
-    //.pipe(takeUntilDestroyed(this.destroyRef))  //Esta linea hace la desubscripcion
-    .pipe(this.destroyCustom())
-    .subscribe(status => this.state = status);
-
+  constructor() {
+    effect(() => {
+      const state = this._multimediaService.playerStatusSignal();
+      this.state = state;
+    })
   }
 
   handlePosition(event: MouseEvent): void {

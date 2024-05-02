@@ -1,27 +1,56 @@
-import { Injectable, effect, signal } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { TrackModel } from '@core/models/tracks.model';
+import { BehaviorSubject, Observable, Observer, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MultimediaService {
-  //ESTE SERVICIO SE CREA BASADO EN SIGNAL
+//ESTA CLASE YA NO SE USA, FUE PARTE DEL APRENDIZAJE DEL CURSO (UN SERVICIO CON PROGRAMACION REACTIVA RXJS)
+export class MultimediaServiceV1 {
 
+  // callback: EventEmitter<any> = new EventEmitter<any>();
+
+  //myObservable1$: BehaviorSubject<any> = new BehaviorSubject('Llega la info'); //Observable<any> = new Observable()
+
+  public trackInfo$: BehaviorSubject<any> = new BehaviorSubject(undefined);
   public audio!: HTMLAudioElement //<audio>
-
-  public trackInfoSignal = signal<TrackModel | undefined>(undefined);
-
-  public timeElapsedSignal = signal<string>('00:00');
-  public timeRemainingSignal = signal<string>('-00:00');
-  public playerStatusSignal = signal<string>('paused');
-  public playerPercentageSignal = signal<number>(0);
+  public timeElapsed$: BehaviorSubject<string> = new BehaviorSubject('00:00');
+  public timeRemaining$: BehaviorSubject<string> = new BehaviorSubject('-00:00');
+  public playerStatus$: BehaviorSubject<string> = new BehaviorSubject('paused');
+  public playerPercentage$: BehaviorSubject<number> = new BehaviorSubject(0);
 
   constructor() {
+    //FUNCIONAMIENTO DEL BEHAVIORSUBJECT
+    // this.myObservable1$.next('Se envia la info')
+
+    // setTimeout(() => {
+    //   this.myObservable1$.next('Hay un error')
+    // }, 1000)
+
+    // setTimeout(() => {
+    //   this.myObservable1$.error('Hay un error')
+    // }, 2000)
+
+    //FUNCIONAMIENTO DE OBSERVER EN OBSERVABLE
+    // this.myObservable1$ = new Observable(
+    //   (observer: Observer<any>) => {
+    //     observer.next('Se envia la info')
+
+    //     setTimeout(() => {
+    //       observer.complete()
+    //     }, 1000)
+
+    //     setTimeout(() => {
+    //       observer.error('Hay un error')
+    //     }, 2500)
+    //   }
+    // )
+
     this.audio = new Audio();
-    
-    effect(() => {
-      const dataInfo = this.trackInfoSignal()
-      if(dataInfo) this.setAudio(dataInfo);
+    this.trackInfo$.subscribe(responseOk => {
+      if(responseOk){
+        this.setAudio(responseOk);
+      }
     })
 
     this.listenAllEvents();
@@ -66,7 +95,7 @@ export class MultimediaService {
     const displaySeconds = (seconds < 10) ? `0${seconds}` : seconds;
     const displayMunites = (minutes < 10) ? `0${minutes}` : minutes;
     const displayFormat = `${displayMunites}:${displaySeconds}`;
-    this.timeElapsedSignal.set(displayFormat);
+    this.timeElapsed$.next(displayFormat);
   }
 
   private setTimeRemaining(currentTime: number, duration: number): void {
@@ -78,28 +107,28 @@ export class MultimediaService {
     const displaySeconds = (seconds < 10) ? `0${seconds}` : seconds;
     const displayMunites = (minutes < 10) ? `0${minutes}` : minutes;
     const displayFormat = `-${displayMunites}:${displaySeconds}`;
-    this.timeRemainingSignal.set(displayFormat);
+    this.timeRemaining$.next(displayFormat);
   }
 
   private setPlayerStatus = (state: any) => {
     switch (state.type) {
       case 'play':
-        this.playerStatusSignal.set('play');
+        this.playerStatus$.next('play');
         break;
       case 'playing':
-        this.playerStatusSignal.set('playing');
+        this.playerStatus$.next('playing');
         break;
       case 'ended':
-        this.playerStatusSignal.set('ended');
+        this.playerStatus$.next('ended');
         break;
       default:
-        this.playerStatusSignal.set('paused');
+        this.playerStatus$.next('paused');
         break;
     } 
   }
 
   setPercentage(currentTime: number, duration: number): void {
     let percentage = (currentTime * 100) / duration;
-    this.playerPercentageSignal.set(percentage);
+    this.playerPercentage$.next(percentage);
   }
 }
