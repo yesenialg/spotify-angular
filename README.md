@@ -1,7 +1,7 @@
-### Spotify-angular
+## Spotify-angular
 Este es un proyecto de aprendizaje que se construyó en el curso de Udemy [Angular desde cero a experto: Crear una aplicación real](https://www.udemy.com/certificate/UC-9d3f9d9d-d589-4a3a-a837-295d2845b583)
 
-## Inicializar proyecto
+### Inicializar proyecto
 
 Para inicializar este frontend, primero debes descargar [esta api](https://github.com/leifermendez/node-api-tracks) que es la que consume este proyecto, y crear un archivo .env con las siguientes variables:
 
